@@ -2,11 +2,12 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Fish Feeder</title>
 
     <style>
         body {
-            font-family: Arial;
+            font-family: Arial, sans-serif;
             text-align: center;
             background: #eaf6ff;
             padding-top: 80px;
@@ -23,10 +24,15 @@
             padding: 25px 50px;
             font-size: 25px;
             border-radius: 15px;
+            cursor: pointer;
         }
 
         button:active {
             transform: scale(0.95);
+        }
+
+        button:disabled {
+            background: #999;
         }
 
         #status {
@@ -40,7 +46,7 @@
 
     <h1>🐟 Fish Feeder</h1>
 
-    <button onclick="feedFish()">
+    <button id="feedButton" onclick="feedFish()">
         FEED NOW 🐟
     </button>
 
@@ -48,14 +54,67 @@
         Ready
     </div>
 
+
     <script>
 
-        function feedFish()
-        {
-            document.getElementById("status").innerHTML =
-                "Feeding... 🐟";
+        // Your Firebase Realtime Database
+        const FIREBASE_URL =
+        "https://fish-feeder-b62d8-default-rtdb.asia-southeast1.firebasedatabase.app";
 
-            // Communication code will go here
+
+        async function feedFish()
+        {
+            const button = document.getElementById("feedButton");
+            const status = document.getElementById("status");
+
+            button.disabled = true;
+
+            status.innerHTML = "Sending feed command... 🐟";
+
+            try
+            {
+                const response = await fetch(
+                    FIREBASE_URL + "/command.json",
+                    {
+                        method: "PUT",
+
+                        headers:
+                        {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify("FEED")
+                    }
+                );
+
+
+                if (!response.ok)
+                {
+                    throw new Error("Firebase error");
+                }
+
+
+                status.innerHTML = "Feed command sent! ✅🐟";
+
+
+                setTimeout(function()
+                {
+                    button.disabled = false;
+                    status.innerHTML = "Ready";
+
+                }, 3000);
+
+            }
+
+            catch(error)
+            {
+                console.error(error);
+
+                status.innerHTML =
+                    "Error sending command ❌";
+
+                button.disabled = false;
+            }
         }
 
     </script>
