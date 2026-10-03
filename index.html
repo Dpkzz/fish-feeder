@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fish Feeder</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #eaf6ff;
+            padding-top: 80px;
+        }
+
+        h1 {
+            color: #1769aa;
+        }
+
+        button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 25px 50px;
+            font-size: 25px;
+            border-radius: 15px;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        #status {
+            margin-top: 30px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🐟 Fish Feeder</h1>
+
+    <button onclick="feedFish()">
+        FEED NOW 🐟
+    </button>
+
+    <div id="status">
+        Ready
+    </div>
+
+    <script>
+
+        function feedFish()
+        {
+            document.getElementById("status").innerHTML =
+                "Feeding... 🐟";
+
+            // Communication code will go here
+        }
+
+    </script>
+
+</body>
+</html>
